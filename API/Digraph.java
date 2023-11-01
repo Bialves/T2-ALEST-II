@@ -3,7 +3,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.nio.charset.Charset;
-import java.util.Scanner;
+import java.util.*;
 
 public class Digraph extends Graph {
 
@@ -19,17 +19,34 @@ public class Digraph extends Graph {
 
   @Override
   public String toDot() {
+    Set<String> addedEdges = new HashSet<>();
+
     StringBuilder sb = new StringBuilder();
     sb.append("digraph {" + NEWLINE);
-    sb.append("rankdir = LR;" + NEWLINE);
+    sb.append("rankdir = TB;" + NEWLINE);
     sb.append("node [shape = circle];" + NEWLINE);
-    for (String v : getVerts().stream().sorted().toList())
-      for (String w : getAdj(v))
-        sb.append(v + " -> " + w + NEWLINE);
+    for (String v : getVerts().stream().sorted().toList()) {
+      for (String w : getAdj(v)) {
+        String edge = v + " -> " + w;
+        if (!addedEdges.contains(edge) && shouldIncludeEdge(v, w)) {
+          sb.append(edge + NEWLINE);
+          addedEdges.add(edge);
+        }
+      }
+    }
     sb.append("}" + NEWLINE);
     return sb.toString();
   }
 
+  private boolean shouldIncludeEdge(String v, String w) {
+    // Verifica se a aresta contém números
+    if (v.matches(".*\\d.*") || w.matches(".*\\d.*")) {
+      return false; // Não inclua arestas que contenham números
+    }
+    return true; // Inclua as outras arestas
+  }
+
+  @SuppressWarnings("unused")
   public void reader(String path) {
 
     try {
