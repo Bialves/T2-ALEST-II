@@ -1,8 +1,8 @@
 public class Main {
-    private static Digraph digraph;
+    private static EdgeWeightedGraph edgeWeightedGraph;
 
     public static void main(String[] args) {
-        digraph = new Digraph("Tests/basic.txt");
-        System.out.println(digraph.toDot());
+        edgeWeightedGraph = new EdgeWeightedGraph("Tests/basic.txt");
+        System.out.println(edgeWeightedGraph.toDot());
     }
 }
