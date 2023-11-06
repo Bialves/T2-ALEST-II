@@ -40,11 +40,10 @@ public class DepthFirstSearch {
 
     private void dfs(EdgeWeightedGraph g, String v, BigInteger sum_path) {
         /**
-         * Se v é 'ouro', retorno para o root, reseto a soma
-         * e salvo a soma total do caminho
+         * Se v é 'ouro', retorno para o root, 
+         * salvo a soma total do caminho e reseto o sum_path
          */
         if (v.equals("ouro")) {
-            // System.out.println("Soma: " + sum);
             this.sum = this.sum.add(sum_path);
             sum_path = BigInteger.valueOf(1);
             return;
@@ -52,11 +51,9 @@ public class DepthFirstSearch {
 
         // Descubro os vizinhos de v
         for (Edge w : g.getAdj(v)) {
-            // System.out.println(v + " | Adj: " + w.getW() + " " + w.getWeight());
-
-            // Realizo a multiplicação da soma com o peso da aresta do caminho
+            // Realizo a multiplicação da sum_path com o peso das arestas do caminho
             BigInteger aux = BigInteger.valueOf((int)w.getWeight());
-            // System.out.println(w.getV() + " - " + w.getW() + " | Soma: " + sum_path + " * " + aux);
+            System.out.println(v + " -> " + w.getW() + " | sum_path: " + (sum_path.intValue() * w.getWeight()));
 
             // Faço a chamada recursiva para os vizinhos de v
             dfs(g, w.getW(), sum_path.multiply(aux));
