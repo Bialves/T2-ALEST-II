@@ -1,5 +1,6 @@
 package src.API;
-import java.math.BigDecimal;
+
+import java.math.BigInteger;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -11,14 +12,14 @@ public class DepthFirstSearch {
     private Set<String> marked;
     private Map<String, String> edgeTo;
     private String s;
-    private BigDecimal sum;
+    private BigInteger sum;
 
     public DepthFirstSearch(EdgeWeightedGraph edgeWeightedGraph, String s) {
         this.s = s;
         marked = new HashSet<>();
         edgeTo = new HashMap<>();
-        this.sum = new BigDecimal(1);
-        dfs(edgeWeightedGraph, s);
+        this.sum = BigInteger.valueOf(0);
+        dfs(edgeWeightedGraph, s, BigInteger.valueOf(1));
     }
 
     public boolean hasPathTo(String v) {
@@ -37,29 +38,32 @@ public class DepthFirstSearch {
         return path;
     }
 
-    private void dfs(EdgeWeightedGraph g, String v) {
+    private void dfs(EdgeWeightedGraph g, String v, BigInteger sum_path) {
+        /**
+         * Se v é 'ouro', retorno para o root, reseto a soma
+         * e salvo a soma total do caminho
+         */
         if (v.equals("ouro")) {
+            // System.out.println("Soma: " + sum);
+            this.sum = this.sum.add(sum_path);
+            sum_path = BigInteger.valueOf(1);
             return;
         }
 
-        // Marqo v (root)
-        marked.add(v);
         // Descubro os vizinhos de v
         for (Edge w : g.getAdj(v)) {
-            System.out.println(v + " | Adj: " + w.getW() + " " + w.getWeight());
-            // Se o vizinho não foi marcado, marco e chamo recursivamente
-            edgeTo.put(w.getW(), v);
-            // Somo os pesos
-            BigDecimal aux = new BigDecimal(1);
-            aux = aux.multiply(new BigDecimal(w.getWeight()));
-            this.sum = this.sum.multiply(aux);
-            System.out.println("Soma: " + this.sum);
+            // System.out.println(v + " | Adj: " + w.getW() + " " + w.getWeight());
+
+            // Realizo a multiplicação da soma com o peso da aresta do caminho
+            BigInteger aux = BigInteger.valueOf((int)w.getWeight());
+            // System.out.println(w.getV() + " - " + w.getW() + " | Soma: " + sum_path + " * " + aux);
+
             // Faço a chamada recursiva para os vizinhos de v
-            dfs(g, w.getW());
+            dfs(g, w.getW(), sum_path.multiply(aux));
         }
     }
 
-    public BigDecimal getWeight() {
-        return sum;
+    public BigInteger getSum() {
+        return this.sum;
     }
 }

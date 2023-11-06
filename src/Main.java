@@ -21,6 +21,6 @@ public class Main {
         //     System.out.println();
         // }
 
-        System.out.println("Peso total: " + dfs.getWeight());
+        System.out.println("Soma total: " + dfs.getSum());
     }
 }
