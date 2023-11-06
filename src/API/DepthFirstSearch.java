@@ -17,6 +17,7 @@ public class DepthFirstSearch {
         this.s = s;
         marked = new HashSet<>();
         edgeTo = new HashMap<>();
+        this.sum = new BigDecimal(1);
         dfs(edgeWeightedGraph, s);
     }
 
@@ -37,24 +38,24 @@ public class DepthFirstSearch {
     }
 
     private void dfs(EdgeWeightedGraph g, String v) {
-        BigDecimal weight = new BigDecimal(1);
-
-        if (g.getAdj(v) == null) {
-            v = edgeTo.get(v);
+        if (v.equals("ouro")) {
+            return;
         }
 
-        // Marquei v (root)
+        // Marqo v (root)
         marked.add(v);
         // Descubro os vizinhos de v
         for (Edge w : g.getAdj(v)) {
-            System.out.println(v + " | " + w.getV() + " " + w.getW() + " " + w.getWeight());
+            System.out.println(v + " | Adj: " + w.getW() + " " + w.getWeight());
             // Se o vizinho não foi marcado, marco e chamo recursivamente
-            if (!marked.contains(w.getW())) {
-                edgeTo.put(w.getW(), v);
-                sum = weight.multiply(new BigDecimal(w.getWeight()));
-                weight = sum;
-                dfs(g, w.getW());
-            }
+            edgeTo.put(w.getW(), v);
+            // Somo os pesos
+            BigDecimal aux = new BigDecimal(1);
+            aux = aux.multiply(new BigDecimal(w.getWeight()));
+            this.sum = this.sum.multiply(aux);
+            System.out.println("Soma: " + this.sum);
+            // Faço a chamada recursiva para os vizinhos de v
+            dfs(g, w.getW());
         }
     }
 
