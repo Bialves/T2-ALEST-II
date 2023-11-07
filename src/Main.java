@@ -1,16 +1,17 @@
 package src;
 
-import src.API.DepthFirstSearch;
 import src.API.EdgeWeightedGraph;
 
 public class Main {
     private static EdgeWeightedGraph edgeWeightedGraph;
 
     public static void main(String[] args) {
-        edgeWeightedGraph = new EdgeWeightedGraph("./tests/casof360.txt");
+        edgeWeightedGraph = new EdgeWeightedGraph("./tests/casoteste.txt");
         System.out.println(edgeWeightedGraph.toDot());
 
-        DepthFirstSearch dfs = new DepthFirstSearch(edgeWeightedGraph, "hidrogenio");
+        //DepthFirstSearch dfs = new DepthFirstSearch(edgeWeightedGraph, "hidrogenio");
+        //System.out.println("Soma total: " + dfs.getSum());
+        new Dict(edgeWeightedGraph);
 
         // Caminhamento em profundidade
         // for(String v: edgeWeightedGraph.getVerts()) {
@@ -20,7 +21,5 @@ public class Main {
         // }
         // System.out.println();
         // }
-
-        System.out.println("Soma total: " + dfs.getSum());
     }
 }

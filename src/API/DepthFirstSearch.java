@@ -43,6 +43,7 @@ public class DepthFirstSearch {
     // alteração do método dfs utilizando memoização para evitar recalcular a
     // quantidade de hidrogênio necessária para percorrer os mesmos nodos novamente
     private void dfs(EdgeWeightedGraph g, String v, BigInteger sum_path) {
+        BigInteger weight = BigInteger.ZERO;
         /**
          * Se v é 'ouro', retorno para o root,
          * salvo a soma total do caminho e reseto o sum_path
@@ -52,22 +53,20 @@ public class DepthFirstSearch {
             sum_path = BigInteger.valueOf(1);
             return;
         }
-        // Verifique se a memoização já possui a quantidade de hidrogênio para o nó
-        // atual
-        if (memoization.containsKey(v)) {
-            sum_path = sum_path.multiply(memoization.get(v));
-        } else {
-            for (Edge w : g.getAdj(v)) {
+        // Verifique se a memoização já possui a quantidade de hidrogênio para o nóS
+        for (Edge w : g.getAdj(v)) {
+            if (memoization.containsKey(w.getW())) {
+                this.sum = this.sum.add(sum_path.multiply(memoization.get(w.getW())));
+                sum_path = sum_path.multiply(memoization.get(w.getW()));
+            } else {
                 // Realizo a multiplicação da sum_path com o peso das arestas do caminho
-                BigInteger aux = BigInteger.valueOf((int) w.getWeight());
-                System.out.println(v + " -> " + w.getW() + " | sum_path: " + (sum_path.intValue() * w.getWeight()));
-
-                // Faço a chamada recursiva para os vizinhos de v
-                dfs(g, w.getW(), sum_path.multiply(aux));
+                weight = sum_path.multiply(BigInteger.valueOf((int) w.getWeight()));
+                memoization.put(w.getW(), BigInteger.valueOf((int) w.getWeight()));
+                System.out.println(w.getW() + " -> " + v + " : " + w.getWeight() + " | Memory: " + weight);
             }
 
-            // Armazene o resultado na memoização
-            memoization.put(v, sum_path);
+            // Faço a chamada recursiva para os vizinhos de v
+            dfs(g, w.getW(), weight);
         }
     }
 
