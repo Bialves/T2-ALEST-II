@@ -28,13 +28,27 @@ public class Dict {
     }
 
     private BigInteger weight(Edge w, EdgeWeightedGraph graph) {
+        System.out.println("V: " + w.getV() + " -> W: " + w.getW());
         if (visited.containsKey(w.getW())) {
-            return visited.get(w.getW()).multiply(BigInteger.valueOf((int) w.getWeight()));
+            BigInteger weight = visited.get(w.getW()).multiply(BigInteger.valueOf((int) w.getWeight()));
+        
+            // Adiciona a orig
+            if (!visited.containsKey(w.getV())) {
+                visited.put(w.getV(), weight);
+                //System.out.println("> V_1: " + w.getV());
+            }
+            return weight;
         } else {
             // Acessa os filhos
             Iterator<Edge> adj = graph.getAdj(w.getW()).iterator();
-            
-            BigInteger weight = BigInteger.valueOf((int) w.getWeight()).multiply(weight(adj.next(), graph));
+            BigInteger weight = BigInteger.valueOf((int) w.getWeight());
+
+            //System.out.println("> V_2: " + w.getV());
+            while (adj.hasNext()) {
+                // Multiplica pelo produto dos pesos dos vértices adjacentes
+                weight = weight.multiply(weight(adj.next(), graph));
+            }
+
             visited.put(w.getV(), weight);
             return weight;    
         }
