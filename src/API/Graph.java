@@ -20,7 +20,7 @@ public class Graph {
     this();
     In in = new In(filename);
     String line;
-    while((line = in.readLine()) != null) {
+    while ((line = in.readLine()) != null) {
       String[] edge = line.split(" ");
       addEdge(edge[0], edge[1]);
     }
@@ -44,13 +44,13 @@ public class Graph {
     // Usa um conjunto de arestas para evitar duplicatas
     Set<String> edges = new HashSet<>();
     StringBuilder sb = new StringBuilder();
-    sb.append("graph {"+NEWLINE);
-    sb.append("rankdir = LR;"+NEWLINE);
-    sb.append("node [shape = circle];"+NEWLINE);
-    for(String v: getVerts().stream().sorted().toList()) {
-      for (String w: getAdj(v)) {
+    sb.append("graph {" + NEWLINE);
+    sb.append("rankdir = LR;" + NEWLINE);
+    sb.append("node [shape = circle];" + NEWLINE);
+    for (String v : getVerts().stream().sorted().toList()) {
+      for (String w : getAdj(v)) {
         String edge = v.compareTo(w) > 0 ? v + w : w + v;
-        if(!edges.contains(edge)) {
+        if (!edges.contains(edge)) {
           sb.append(v + " -- " + w + NEWLINE);
           edges.add(edge);
         }

@@ -1,4 +1,5 @@
 package src.API;
+
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -28,7 +29,8 @@ public class EdgeWeightedGraph {
   public void addEdge(String v, String w, double weight) {
     Edge e = new Edge(v, w, weight);
     addToList(v, e);
-    //addToList(w, e); Comentado, pq o caminho de volta não nos é interessante (é grafo direcional que queremos)
+    // addToList(w, e); Comentado, pq o caminho de volta não nos é interessante (é
+    // grafo direcional que queremos)
   }
 
   public Iterable<Edge> getAdj(String v) {
@@ -43,13 +45,13 @@ public class EdgeWeightedGraph {
     // Usa um conjunto de arestas para evitar duplicatas
     Set<String> edges = new HashSet<>();
     StringBuilder sb = new StringBuilder();
-    sb.append("graph {"+NEWLINE);
-    sb.append("rankdir = TB;"+NEWLINE);
-    sb.append("node [shape = circle];"+NEWLINE);
-    for(String v: getVerts().stream().sorted().toList()) {
-      for (Edge e: getAdj(v)) {
+    sb.append("graph {" + NEWLINE);
+    sb.append("rankdir = TB;" + NEWLINE);
+    sb.append("node [shape = circle];" + NEWLINE);
+    for (String v : getVerts().stream().sorted().toList()) {
+      for (Edge e : getAdj(v)) {
         String edge = e.toString();
-        if(!edges.contains(edge)) {
+        if (!edges.contains(edge)) {
           sb.append(String.format("%s -- %s [label=\"%.3f\"]", e.getV(), e.getW(), e.getWeight()) + NEWLINE);
           edges.add(edge);
         }
