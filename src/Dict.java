@@ -10,37 +10,39 @@ import src.API.EdgeWeightedGraph;
 public class Dict {
     private Map<String, BigInteger> visited;
     private final String INIT = "hidrogenio";
-    private final String TARGET = "hidrogenio";
+    private final String TARGET = "ouro";
     private BigInteger sum;
 
-    public Dict(EdgeWeightedGraph g) {
+    public Dict(EdgeWeightedGraph graph) {
         this.visited = new HashMap<>();
         sum = BigInteger.ZERO;
 
-        dfs(g, INIT);
+        dfs(graph, INIT);
         System.out.println("Soma total: " + sum);
     }
 
-    private void dfs(EdgeWeightedGraph g, String v) {
+    private void dfs(EdgeWeightedGraph graph, String v) {
         visited.put(TARGET, BigInteger.ONE);
 
-        for (Edge w : g.getAdj(v)) {
-            sum = sum.add(weight(w, g.getAdj(w.getW()).iterator()));
+        for (Edge w : graph.getAdj(v)) {
+            sum = sum.add(weight(w, graph));
         }
     }
 
-    private BigInteger weight(Edge w, Iterator<Edge> adj) {
+    private BigInteger weight(Edge w, EdgeWeightedGraph graph) {
         if (visited.containsKey(w.getW())) {
             return visited.get(w.getW()).multiply(BigInteger.valueOf((int) w.getWeight()));
         } else {
-            // Se não há elementos na lista
-            if (!adj.hasNext()) {
-                return BigInteger.ONE;
-            } else {
-                BigInteger weight = BigInteger.valueOf((int) w.getWeight()).multiply(weight(adj.next(), adj));
-                visited.put(w.getW(), weight);
+            // Acessa os filhos
+            Iterator<Edge> adj = graph.getAdj(w.getW()).iterator();
+            if (adj.hasNext()) {
+                BigInteger weight = BigInteger.valueOf((int) w.getWeight()).multiply(weight(adj.next(), graph));
+                visited.put(w.getV(), weight);
                 return weight;
+            } else {
+                return BigInteger.ONE;
             }
+            
         }
     }
 

@@ -6,7 +6,7 @@ public class Main {
     private static EdgeWeightedGraph edgeWeightedGraph;
 
     public static void main(String[] args) {
-        edgeWeightedGraph = new EdgeWeightedGraph("./tests/casoteste.txt");
+        edgeWeightedGraph = new EdgeWeightedGraph("./tests/casof40.txt");
         System.out.println(edgeWeightedGraph.toDot());
 
         //DepthFirstSearch dfs = new DepthFirstSearch(edgeWeightedGraph, "hidrogenio");
