@@ -1,5 +1,6 @@
 package src;
 
+import src.API.Dict;
 import src.API.EdgeWeightedGraph;
 
 public class Main {
@@ -11,15 +12,7 @@ public class Main {
 
         //DepthFirstSearch dfs = new DepthFirstSearch(edgeWeightedGraph, "hidrogenio");
         //System.out.println("Soma total: " + dfs.getSum());
-        new Dict(edgeWeightedGraph);
-
-        // Caminhamento em profundidade
-        // for(String v: edgeWeightedGraph.getVerts()) {
-        // System.out.print(v+ ": ");
-        // for(String w: dfs.pathTo(v)) {
-        // System.out.print(w+" ");
-        // }
-        // System.out.println();
-        // }
+        Dict d = new Dict(edgeWeightedGraph);
+        System.out.println(d.toString());
     }
 }

@@ -1,11 +1,9 @@
-package src;
+package src.API;
 
 import java.math.BigInteger;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
-import src.API.Edge;
-import src.API.EdgeWeightedGraph;
 
 public class Dict {
     private Map<String, BigInteger> visited;
@@ -35,15 +33,16 @@ public class Dict {
         } else {
             // Acessa os filhos
             Iterator<Edge> adj = graph.getAdj(w.getW()).iterator();
-            if (adj.hasNext()) {
-                BigInteger weight = BigInteger.valueOf((int) w.getWeight()).multiply(weight(adj.next(), graph));
-                visited.put(w.getV(), weight);
-                return weight;
-            } else {
-                return BigInteger.ONE;
-            }
             
+            BigInteger weight = BigInteger.valueOf((int) w.getWeight()).multiply(weight(adj.next(), graph));
+            visited.put(w.getV(), weight);
+            return weight;    
         }
+    }
+
+    @Override
+    public String toString() {
+        return visited.toString();
     }
 
     // NOTAS

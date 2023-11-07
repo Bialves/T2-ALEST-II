@@ -30,7 +30,7 @@ public class Test {
 
     private void dfs(EdgeWeightedGraph graph, String v, BigInteger sum_path, Map<String, Stack<Edge>> pathsVisited) {
         if (v.equals(TARGET)) {
-            pathsVisited.get();
+            //pathsVisited.get(); Origem dele
             this.sum = this.sum.add(sum_path);
             return;
         }
