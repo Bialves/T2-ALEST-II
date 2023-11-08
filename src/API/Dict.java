@@ -11,17 +11,12 @@ public class Dict {
 
     public Dict(EdgeWeightedGraph graph) {
         sums = new HashMap<>();
-        BigInteger result = calculateSum(graph, INIT);
+        sums.put(TARGET, BigInteger.ONE);
+        BigInteger result = calculate(graph, INIT);
         System.out.println("Soma total: " + result);
     }
 
-    private BigInteger calculateSum(EdgeWeightedGraph graph, String v) {
-        // Se o vértice atual (v) é o vértice de destino (TARGET), retorna 1, indicando
-        // um caminho possível
-        if (v.equals(TARGET)) {
-            return BigInteger.ONE;
-        }
-
+    private BigInteger calculate(EdgeWeightedGraph graph, String v) {
         // Se o valor para o vértice atual já foi calculado, retorna esse valor para
         // evitar recálculos
         if (sums.containsKey(v)) {
@@ -37,7 +32,7 @@ public class Dict {
 
             // Calcula a soma total para o vértice de destino
             // Multiplica a soma parcial pelo peso da aresta e adiciona ao total
-            sum = sum.add(calculateSum(graph, w.getW()).multiply(BigInteger.valueOf((int) w.getWeight())));
+            sum = sum.add(calculate(graph, w.getW()).multiply(BigInteger.valueOf((int) w.getWeight())));
         }
 
         // Armazena o resultado (sum) no mapa para evitar futuros recálculos

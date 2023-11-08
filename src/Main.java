@@ -12,7 +12,6 @@ public class Main {
 
         // DepthFirstSearch dfs = new DepthFirstSearch(edgeWeightedGraph, "hidrogenio");
         // System.out.println("Soma total: " + dfs.getSum());
-        Dict d = new Dict(edgeWeightedGraph);
-        System.out.println(d.toString());
+        new Dict(edgeWeightedGraph);
     }
 }
