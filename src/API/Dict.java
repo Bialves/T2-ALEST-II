@@ -2,78 +2,54 @@ package src.API;
 
 import java.math.BigInteger;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 
 public class Dict {
-    private Map<String, BigInteger> visited;
+    private Map<String, BigInteger> sums;
     private final String INIT = "hidrogenio";
     private final String TARGET = "ouro";
-    private BigInteger sum;
 
     public Dict(EdgeWeightedGraph graph) {
-        this.visited = new HashMap<>();
-        sum = BigInteger.ZERO;
-
-        dfs(graph, INIT);
-        System.out.println("Soma total: " + sum);
+        sums = new HashMap<>();
+        BigInteger result = calculateSum(graph, INIT);
+        System.out.println("Soma total: " + result);
     }
 
-    private void dfs(EdgeWeightedGraph graph, String v) {
-        visited.put(TARGET, BigInteger.ONE);
+    private BigInteger calculateSum(EdgeWeightedGraph graph, String v) {
+        // Se o vértice atual (v) é o vértice de destino (TARGET), retorna 1, indicando
+        // um caminho possível
+        if (v.equals(TARGET)) {
+            return BigInteger.ONE;
+        }
 
+        // Se o valor para o vértice atual já foi calculado, retorna esse valor para
+        // evitar recálculos
+        if (sums.containsKey(v)) {
+            return sums.get(v);
+        }
+
+        // Inicializa a soma em zero
+        BigInteger sum = BigInteger.ZERO;
+
+        // Para cada aresta (Edge) adjacente ao vértice atual...
         for (Edge w : graph.getAdj(v)) {
-            sum = sum.add(weight(w, graph));
+            // Chama recursivamente a função para o vértice de destino da aresta
+
+            // Calcula a soma total para o vértice de destino
+            // Multiplica a soma parcial pelo peso da aresta e adiciona ao total
+            sum = sum.add(calculateSum(graph, w.getW()).multiply(BigInteger.valueOf((int) w.getWeight())));
         }
-    }
 
-    private BigInteger weight(Edge w, EdgeWeightedGraph graph) {
-        System.out.println("V: " + w.getV() + " -> W: " + w.getW());
-        if (visited.containsKey(w.getW())) {
-            BigInteger weight = visited.get(w.getW()).multiply(BigInteger.valueOf((int) w.getWeight()));
-        
-            // Adiciona a orig
-            if (!visited.containsKey(w.getV())) {
-                visited.put(w.getV(), weight);
-                //System.out.println("> V_1: " + w.getV());
-            }
-            return weight;
-        } else {
-            // Acessa os filhos
-            Iterator<Edge> adj = graph.getAdj(w.getW()).iterator();
-            BigInteger weight = BigInteger.valueOf((int) w.getWeight());
+        // Armazena o resultado (sum) no mapa para evitar futuros recálculos
+        // desnecessários
+        sums.put(v, sum);
 
-            //System.out.println("> V_2: " + w.getV());
-            while (adj.hasNext()) {
-                // Multiplica pelo produto dos pesos dos vértices adjacentes
-                weight = weight.multiply(weight(adj.next(), graph));
-            }
-
-            visited.put(w.getV(), weight);
-            return weight;    
-        }
+        // Retorna a soma total pro vértice atual
+        return sum;
     }
 
     @Override
     public String toString() {
-        return visited.toString();
+        return sums.toString();
     }
-
-    // NOTAS
-
-    // calcularCaminhos(hidrogenio){
-    //     for filhos do hidrogenio:
-    //         path(filho)
-    // }
-
-    // path (elemento){
-    //     if(elemento is in visited){
-    //         return visited[elemento].custo
-    //     }else{
-    //         custo = path(elemento.filho)
-    //         visited.add(emelento, custo)
-    //         return custo'
-    //     }
-    // }
-    
 }
