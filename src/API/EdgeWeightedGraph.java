@@ -17,20 +17,14 @@ public class EdgeWeightedGraph {
   protected static final String NEWLINE = System.getProperty("line.separator");
   protected Map<String, List<Edge>> graph;
 
-  public EdgeWeightedGraph() {
-    graph = new HashMap<>();
-  }
-
   public EdgeWeightedGraph(String filename) {
-    this();
+    graph = new HashMap<>();
     reader(filename);
   }
 
   public void addEdge(String v, String w, double weight) {
     Edge e = new Edge(v, w, weight);
     addToList(v, e);
-    // addToList(w, e); Comentado, pq o caminho de volta não nos é interessante (é
-    // grafo direcional que queremos)
   }
 
   public Iterable<Edge> getAdj(String v) {
