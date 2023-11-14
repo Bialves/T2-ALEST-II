@@ -17,20 +17,14 @@ public class EdgeWeightedGraph {
   protected static final String NEWLINE = System.getProperty("line.separator");
   protected Map<String, List<Edge>> graph;
 
-  public EdgeWeightedGraph() {
-    graph = new HashMap<>();
-  }
-
   public EdgeWeightedGraph(String filename) {
-    this();
+    graph = new HashMap<>();
     reader(filename);
   }
 
   public void addEdge(String v, String w, double weight) {
     Edge e = new Edge(v, w, weight);
     addToList(v, e);
-    // addToList(w, e); Comentado, pq o caminho de volta não nos é interessante (é
-    // grafo direcional que queremos)
   }
 
   public Iterable<Edge> getAdj(String v) {
@@ -72,7 +66,7 @@ public class EdgeWeightedGraph {
     return list;
   }
 
-  // Método de leitura dos casos testes
+  // Método de leitura
   public void reader(String path) {
 
     try {
@@ -87,6 +81,7 @@ public class EdgeWeightedGraph {
         String element = "";
         String e = next[1];
 
+        // Se há mais de um vértice de origem
         if (ant.length > 2) {
           int count = 0;
           while (count < (ant.length - 1)) {
@@ -102,11 +97,11 @@ public class EdgeWeightedGraph {
         }
       }
     } catch (FileNotFoundException e) {
-      System.err.format("Arquivo não encontrado: %s%n", e);
+      System.err.format("Arquivo não encontrado: %s%n", e.getMessage());
     } catch (IOException e) {
-      System.err.format("Erro de E/S: %s%n", e);
+      System.err.format("Erro de E/S: %s%n", e.getMessage());
     } catch (ArrayIndexOutOfBoundsException e) {
-      System.err.format("Não é possível ler mais linhas: %s%n", e);
+      System.err.format("Não é possível ler mais linhas: %s%n", e.getMessage());
     } catch (Exception e) {
       System.err.format("Erro: %s%n", e.getMessage());
     }
